@@ -1,4 +1,4 @@
-# vilunteerms-fe
+# volunteerms-fe
 
 ## Project setup
 ```
