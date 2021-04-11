@@ -3,7 +3,7 @@
  * input: testObject: Object
  * output: boolean
  */
-const isEmptyObject = (testObject: object) : boolean => JSON.stringify(testObject) === "{}";
+const isEmptyObject = (testObject: object): boolean =>
+  JSON.stringify(testObject) === "{}";
 
-
-export { isEmptyObject }
+export { isEmptyObject };

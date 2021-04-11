@@ -2,22 +2,22 @@
   <el-menu
     mode="vertical"
     collapse-transition="false"
-    collapse="true"
+    :collapse="isCollapse"
     menu-trigger="hover"
-    unique-opened="false"
+    style="height:100%;"
   >
-    <LeftTabSubMenu
+    <LeftSubMenu
       v-for="myMenuList in myMenuLists"
       :key="myMenuList.id"
       :menuSubList="myMenuList"
     >
-    </LeftTabSubMenu>
+    </LeftSubMenu>
   </el-menu>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import LeftTabSubMenu from "./LeftTabSubMenu/LeftTabSubMenu.vue";
+import LeftSubMenu from "@/views/layout/LeftMenu/LeftSubMenu.vue";
 
 const MyMenu = [
   {
@@ -72,6 +72,21 @@ const MyMenu = [
   {
     id: "3",
     menuSubName: "导航三",
+    menuSubIcon: "el-icon-location",
+    children: [
+      {
+        id: "3-1",
+        menuSubName: "3-1菜单"
+      },
+      {
+        id: "3-2",
+        menuSubName: "3-2菜单"
+      }
+    ]
+  },
+  {
+    id: "4",
+    menuSubName: "导航四",
     menuSubIcon: "el-icon-location"
   }
 ];
@@ -81,17 +96,34 @@ MyMenu.forEach(i => {
 });
 
 export default defineComponent({
-  name: "LeftTabs",
+  name: "LeftMenu",
+  props: ["isCollapse"],
   components: {
-    LeftTabSubMenu
+    LeftSubMenu
   },
   data() {
     return {
-      // isCollapse: true
+      // isCollapse: true,
       myMenuLists: MyMenu
     };
   }
 });
 </script>
 
-<style lang="scss" scoped></style>
+<style>
+.el-menu {
+  width: 210px !important;
+}
+.el-menu--collapse {
+  width: 54px !important;
+}
+li {
+  background: chartreuse;
+}
+</style>
+
+<style lang="scss" scoped>
+.scrollbarHeight {
+  max-height: 100% !important;
+}
+</style>
