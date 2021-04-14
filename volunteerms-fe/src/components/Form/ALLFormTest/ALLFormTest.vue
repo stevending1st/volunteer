@@ -87,6 +87,21 @@ export default defineComponent({
                 label: "多选项4",
                 labelName: "多选项名4",
                 disabled: true
+              },
+              {
+                label: "多选项5",
+                labelName: "多选项名4",
+                disabled: true
+              },
+              {
+                label: "多选项6",
+                labelName: "多选项名6",
+                disabled: true
+              },
+              {
+                label: "多选项7",
+                labelName: "多选项名7",
+                disabled: true
               }
             ]
           },
@@ -247,7 +262,7 @@ export default defineComponent({
     };
   },
   methods: {
-    UpdateFormdataFn(formdata: any){
+    UpdateFormdataFn(formdata: any) {
       this.form = formdata;
     }
   }

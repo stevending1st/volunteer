@@ -1,48 +1,63 @@
 <template>
-  <div>
-    <el-table
-      :data="tableData"
-      border
-      style="width: 100%"
-      height="250"
-      row-class-name="xxxx.xxx"
-    >
-      <el-table-column type="index" index="indexMethod"></el-table-column>
-      <el-table-column type="expand">
-        <template #default="props">
-          <el-form label-position="left" inline>
-            <!-- 展开单项 -->
-            <el-form-item label="XXX">
-              <span>{{ props }}</span>
-            </el-form-item>
-            <!-- 展开单项 -->
-          </el-form>
-        </template>
-      </el-table-column>
-      <el-table-column label="项目名" prop="id"></el-table-column>
-      <el-table-column label="操作">
-        <template #default="scope">
-          <el-button
-            size="mini"
-            @click="clicktext(scope.$index, scope.row)"
-            type="danger"
-          ></el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-dialog title="xxx" v-model="dialogFormVisible">
-      
-    </el-dialog>
-  </div>
+  <TableComp :tableInfo="tableInfoValue" :tableData="tableDataValue">
+    <template v-slot:tableFrom="tableRow">
+      {{ tableRow.scopeRow }}
+    </template>
+
+    <template v-slot:operating="scope">
+      <el-button
+        size="mini"
+        type="danger"
+        @click="handleDelete(scope.scopeIndex, scope.scopeRow)"
+      >
+        删除
+      </el-button>
+    </template>
+  </TableComp>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import TableComp from "@/components/Table/TableComp/TableComp.vue";
+
 export default defineComponent({
+  name: "TableTest",
+  components: {
+    TableComp
+  },
+  props: ["props"],
   data() {
     return {
-      dialogFormVisible: false,
-      tableData: [
+      tableInfoValue: {
+        border: true,
+        indexColumn: {
+          disable: false
+        },
+        selectionColumn: {
+          disable: false
+        },
+        columIntems: [
+          {
+            columName: "Id",
+            columId: "id"
+          },
+          {
+            columName: "分类",
+            columId: "category"
+          },
+          {
+            columName: "商品名",
+            columId: "name"
+          }
+        ],
+        slots: [
+          {
+            columId: "operating",
+            columName: "操作"
+          }
+        ]
+      },
+      tableDataValue: [
         {
           id: "12987122",
           name: "好滋好味鸡蛋仔",
@@ -81,6 +96,11 @@ export default defineComponent({
         }
       ]
     };
+  },
+  methods: {
+    handleDelete(scopeIndex: number, scopeRow: object) {
+      console.log(scopeIndex, scopeRow, this.$data.tableDataValue);
+    }
   }
 });
 </script>

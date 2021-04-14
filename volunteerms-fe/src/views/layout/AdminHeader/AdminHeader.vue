@@ -5,8 +5,8 @@
       <i v-show="!isCollapse" class="el-icon-s-fold"></i> -->
       <i
         :class="[
-          { 'el-icon-s-unfold': isCollapse },
-          { 'el-icon-s-fold': !isCollapse }
+          { 'el-icon-s-unfold': !isCollapse },
+          { 'el-icon-s-fold': isCollapse }
         ]"
         @click="changeCollapse"
       >
@@ -49,8 +49,7 @@ export default defineComponent({
     };
   },
   methods: {
-    changeCollapse: function(): void {
-      console.log("close");
+    changeCollapse(): void {
       this.$emit("changeCollapse");
     }
   }

@@ -1,18 +1,20 @@
 <template>
-  <el-menu
-    mode="vertical"
-    collapse-transition="false"
-    :collapse="isCollapse"
-    menu-trigger="hover"
-    style="height:100%;"
-  >
-    <LeftSubMenu
-      v-for="myMenuList in myMenuLists"
-      :key="myMenuList.id"
-      :menuSubList="myMenuList"
+  <el-scrollbar :native="false" wrapStyle="height: 100vh">
+    <el-menu
+      mode="vertical"
+      :collapse-transition="false"
+      :collapse="isCollapse"
+      menu-trigger="hover"
+      style="height:100%; overflow-y: auto;"
     >
-    </LeftSubMenu>
-  </el-menu>
+      <LeftSubMenu
+        v-for="myMenuList in myMenuLists"
+        :key="myMenuList.id"
+        :menuSubList="myMenuList"
+      >
+      </LeftSubMenu>
+    </el-menu>
+  </el-scrollbar>
 </template>
 
 <script lang="ts">
@@ -111,14 +113,14 @@ export default defineComponent({
 </script>
 
 <style>
-.el-menu {
-  width: 210px !important;
-}
 .el-menu--collapse {
   width: 54px !important;
 }
 li {
   background: chartreuse;
+}
+.el-menu {
+  border-right: 0 !important;
 }
 </style>
 
