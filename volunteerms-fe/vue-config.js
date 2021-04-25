@@ -21,5 +21,5 @@ module.exports = {
         SymbolId: "incon-[name]"
       });
   },
-  publicPath: process.env.NODE_ENV === "dev" ? "/volunteer/" : "/"
+  publicPath: process.env.VUE_APP_PUBLICPATH
 };
