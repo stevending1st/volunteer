@@ -16,7 +16,9 @@
               <span>站外通知</span>
             </div>
           </template>
-          账号：admin<br />密码：admin
+          管理员账号：<br />账号：admin<br />密码：admin
+          <hr />
+          用户账号：<br />账号：user<br />密码：user
         </el-card>
       </el-col>
       <el-col :xs="24" :sm="12" :md="9" :lg="8" :xl="5">
@@ -25,7 +27,7 @@
             <el-form-item label="账号">
               <el-input
                 placeholder="请输入学号&nbsp;/&nbsp;志愿者编号"
-                v-model="login.userName"
+                v-model="login.name"
               >
               </el-input>
             </el-form-item>
@@ -38,7 +40,7 @@
               </el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary">登录</el-button>
+              <el-button type="primary" @click="loginfFn()">登录</el-button>
               <div class="login-otherlink">
                 <router-link to="/register">
                   <a>立即注册，成为志愿者</a>
@@ -62,20 +64,42 @@
 
 <script lang="ts">
 // import { ref } from "Vue";
-// import { defineComponent, ref } from 'vue';
-import { Vue } from "vue-class-component";
+import { defineComponent } from "vue";
+// import { Vue } from "vue-class-component";
+import { postLogin } from "@/api/user/user";
 
-export default class Login extends Vue {
-  // export default defineComponent({
+// export default class Login extends Vue {
+export default defineComponent({
   data() {
     return {
       login: {
-        userName: "admin",
+        name: "admin",
         password: "admin"
       }
     };
+  },
+  methods: {
+    loginfFn(): void {
+      postLogin(this.login)
+        .then(res => {
+          localStorage.setItem("token", res.data.token);
+          window.location.href = "/";
+        })
+        .catch(err => {
+          console.log("err", err);
+        });
+    }
   }
-}
+  // mounted() {
+  //   postLogin({ name: "admin", password: "admin" })
+  //     .then(data => {
+  //       console.log("data", data);
+  //     })
+  //     .catch(err => {
+  //       console.log("err", err);
+  //     });
+  // }
+});
 </script>
 
 <style lang="scss" scoped>

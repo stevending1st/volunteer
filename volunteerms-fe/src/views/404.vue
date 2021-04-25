@@ -1,11 +1,12 @@
 <template>
-  <div style="margin: 20px 20px 40px"></div>
+  <el-empty description="404" :image-size="200"></el-empty>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+
 export default defineComponent({
-  name: "SystManageCompany"
+  name: "404"
 });
 </script>
 

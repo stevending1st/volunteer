@@ -10,12 +10,36 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/layout/Layout.vue"),
     children: [
       {
+        path: "/Home",
+        component: () => import("@/views/layout/Main/Home/Home.vue")
+      },
+      {
+        path: "/activitySquare",
+        component: () => import("@/views/layout/Main/ActivitySquare/ActivitySquare.vue")
+      },
+      {
+        path: "/activity/myActivity",
+        component: () => import("@/views/layout/Main/Activity/MyActivity/MyActivity.vue")
+      },
+      {
+        path: "/activity/createActivity",
+        component: () => import("@/views/layout/Main/Activity/CreateActivity/CreateActivity.vue")
+      },
+      {
+        path: "/activity/ActivityVerify",
+        component: () => import("@/views/layout/Main/Activity/ActivityVerify/ActivityVerify.vue")
+      },
+      {
         path: "/manage/company",
         component: () => import("@/views/layout/Main/Manage/Company/Company.vue")
       },
       {
         path: "/manage/unit",
         component: () => import("@/views/layout/Main/Manage/Unit/Unit.vue")
+      },
+      {
+        path: "/Docs",
+        component: () => import("@/views/layout/Main/Docs/Docs.vue")
       }
     ]
   },
@@ -30,24 +54,36 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import("@/views/user/Register.vue")
   },
   {
-    path: "/home",
-    name: "Home",
-    component: () => import("@/views/Home.vue")
+    path: "/404",
+    component: () => import("@/views/404.vue")
   }
-  // {
-  //   path: "/about",
-  //   name: "About",
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () =>
-  //     import(/* webpackChunkName: "about" */ "../views/About.vue")
-  // }
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes
+});
+
+router.beforeEach((to, from, next) => {
+  if( to.path ==="/login" || to.path === "/register"){
+    next();
+  } else if( localStorage.getItem("token") !== null ){
+    if (to.matched.length === 0 ) {
+      next({
+        path: "/404"
+      })
+    } else if (to.path === "/") {
+      next({
+        path: "/Home"
+      });
+    } else {
+      next();
+    }
+  } else {
+    next({
+      path: "/login"
+    });
+  }
 });
 
 export default router;

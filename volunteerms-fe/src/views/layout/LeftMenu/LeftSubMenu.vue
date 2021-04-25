@@ -2,6 +2,7 @@
   <el-submenu
     v-if="'children' in menuSubList && menuSubList.children.length !== 0"
     :index="menuSubList.id"
+    :key="menuSubList.id"
   >
     <template #title>
       <i
@@ -10,13 +11,14 @@
       ></i>
       <span>{{ menuSubList.menuSubName }}</span>
     </template>
+    <!-- 递归 -->
     <LeftSubMenu
       v-for="myMenuListChild in menuSubList.children"
       :key="myMenuListChild.id"
       :menuSubList="myMenuListChild"
     ></LeftSubMenu>
   </el-submenu>
-  <el-menu-item v-else :index="menuSubList.id">
+  <el-menu-item v-else :index="menuSubList.id" :key="menuSubList.id">
     <i :class="menuSubList.menuSubIcon"></i>
     <template #title>{{ menuSubList.menuSubName }}</template>
   </el-menu-item>

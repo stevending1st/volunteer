@@ -13,19 +13,26 @@
       </i>
     </div>
     <div class="navBarFlexBox">
-      <el-tooltip effect="dark" content="全屏" placement="bottom-end">
+      <!-- <el-tooltip effect="dark" content="全屏" placement="bottom-end">
         <i class="el-icon-full-screen"></i>
-      </el-tooltip>
+      </el-tooltip> -->
       <!-- <el-tooltip effect="dark" content="消息提示2" placement="bottom-end">
         <i class="el-icon-s-unfold"></i>
       </el-tooltip> -->
       <!-- <svg-icon data_iconName="lang" className="iconclass" /> -->
-      <div style="height: 40px; width: 40px;">
-        <UserAvatar
-          :user-name="userName"
-          :user-avatar-url="circleUrl"
-        ></UserAvatar>
-      </div>
+      <el-dropdown @command="handleCommand">
+        <div style="height: 40px; width: 40px;">
+          <UserAvatar
+            :user-name="userInfo.userName"
+            :user-avatar-url="userInfo.circleUrl"
+          ></UserAvatar>
+        </div>
+        <template #dropdown>
+          <el-dropdown-menu>
+            <el-dropdown-item command="layout">退出</el-dropdown-item>
+          </el-dropdown-menu>
+        </template>
+      </el-dropdown>
     </div>
   </el-row>
 </template>
@@ -40,17 +47,26 @@ export default defineComponent({
     UserAvatar
   },
   props: {
-    isCollapse: Boolean
+    isCollapse: Boolean,
+    userInfo: Object
   },
   data() {
     return {
-      userName: "张悠悠",
-      circleUrl: "https://empty"
+      // userName: "张悠悠",
+      // circleUrl: "https://empty"
     };
   },
   methods: {
     changeCollapse(): void {
       this.$emit("changeCollapse");
+    },
+    handleCommand(command: string): void {
+      switch (command) {
+        case "layout":
+          localStorage.clear();
+          this.$router.push("/login");
+          break;
+      }
     }
   }
 });

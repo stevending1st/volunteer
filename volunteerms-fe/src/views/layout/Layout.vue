@@ -7,26 +7,42 @@
       :modal="true"
       :withHeader="false"
       :show-close="false"
-      :close-on-press-escape="false"
+      :close-on-press-escape="true"
       :append-to-body="false"
       v-if="!isMenuDisplay"
       @close="changeCollapse"
     >
-      <LeftMenu />
+      <LeftMenu
+        :defaultActive="defaultActive"
+        :myMenuLists="myMenuLists"
+        @leftMenuSelectTF="leftMenuSelect"
+      />
     </el-drawer>
     <el-aside
+      class="leftmenubackground"
       :width="isMenuOpen === true ? '210px' : '54px'"
       v-if="isMenuDisplay"
     >
-      <LeftMenu :isCollapse="!isMenuOpen" />
+      <LeftMenu
+        :isCollapse="!isMenuOpen"
+        :defaultActive="defaultActive"
+        :myMenuLists="myMenuLists"
+        @leftMenuSelectTF="leftMenuSelect"
+      />
     </el-aside>
     <el-container>
-      <el-header height="85px">
+      <!-- <el-header height="85px"> -->
+      <el-header height="50px">
         <AdminHeader
           :isCollapse="isMenuOpen"
+          :userInfo="userInfoSimple"
           @changeCollapse="changeCollapse"
         ></AdminHeader>
-        <NavTabs></NavTabs>
+        <!-- <NavTabs
+          :editableTabs="editableTabs"
+          @clicktabs="clicktabsFn"
+          @closetab="closetabFn"
+        ></NavTabs> -->
       </el-header>
       <el-main>
         <el-scrollbar :native="false">
@@ -43,24 +59,39 @@
 import { defineComponent } from "vue";
 import LeftMenu from "@/views/layout/LeftMenu/LeftMenu.vue";
 import AdminHeader from "@/views/layout/AdminHeader/AdminHeader.vue";
-import NavTabs from "@/views/layout/NavTabs/NavTabs.vue";
+// import NavTabs from "@/views/layout/NavTabs/NavTabs.vue";
 // import AllFormTest from "@/components/Form/ALLFormTest/ALLFormTest.vue";
 // import TableTest from "@/components/Table/TableTest/TableTest.vue";
+import { routeArrayGetIndex, routeArrayGetRoutePath } from "@/utils/routetool";
+import { getMenu, getUerInfoSimple } from "@/api/user/user";
 
 export default defineComponent({
   name: "Layout",
   components: {
     LeftMenu,
-    AdminHeader,
-    NavTabs
-    // AllFormTest
-    // TableTest
+    AdminHeader //,
+    // NavTabs
   },
   data() {
     return {
       isMenuOpen: document.body.clientWidth > 1000,
       isMenuDisplay: document.body.clientWidth > 1000,
-      screenWidth: document.body.clientWidth
+      screenWidth: document.body.clientWidth,
+      defaultActive: "",
+      myMenuLists: [],
+      userInfoSimple: {
+        // userName: "张悠悠",
+        // circleUrl: "https://empty"
+      }
+      // editableTabs: [
+      //   {
+      //     title: "Tab 1",
+      //     name: "1",
+      //     content: "Tab 1 content",
+      //     closable: false,
+      //     route: "/Home"
+      //   }
+      // ]
     };
   },
   methods: {
@@ -80,13 +111,64 @@ export default defineComponent({
     },
     changeCollapse() {
       this.isMenuOpen = !this.isMenuOpen;
+    },
+    // clicktabsFn(name: string) {
+    //   this.$data.editableTabs.map(item => {
+    //     if (item.name === name) {
+    //       item.route
+    //         ? this.$router.push(item.route)
+    //         : this.$router.push("/layout/404");
+    //       return;
+    //     }
+    //   });
+    // },
+    // closetabFn(index: number) {
+    //   if (index === -1){
+    //     this.$data.editableTabs.splice(0, 1, {
+    //       title: "首页",
+    //       name: "0",
+    //       content: "Tab 9 content",
+    //       closable: true
+    //     });
+    //   } else {
+    //     this.$data.editableTabs.splice(index, 1);
+    //   }
+    // },
+    leftMenuSelect(indexPath: Array<string>) {
+      console.log("indexPath:", indexPath);
+      // 坑：这里用 indexPath.pop() 会出现 bug!
+      const lastindex = indexPath[indexPath.length - 1];
+      const routePath = lastindex ? lastindex : "/layout/404";
+      console.log("defaultActive", routePath);
+      this.$data.defaultActive = routePath ? routePath : "";
+      console.log("this.$data.defaultActive", this.$data.defaultActive);
+      this.$router.push(routeArrayGetRoutePath(lastindex));
     }
+  },
+  created() {
+    const userName =
+      window.localStorage
+        .getItem("token")
+        ?.split(" ")
+        .pop() ?? "";
+    getMenu({ name: userName }).then(res => {
+      console.log("menu", res.data.menuList);
+      this.$data.myMenuLists = res.data.menuList;
+    });
+    getUerInfoSimple({ name: userName }).then(res => {
+      console.log("menu", res.data.userInfoSimple);
+      this.$data.userInfoSimple = res.data.userInfoSimple;
+    });
   },
   mounted() {
     window.addEventListener(
       "resize",
       this.listenResizeFn(this.changeMenuDisplay)
     );
+    const routePath = this.$route.path;
+    console.log(routePath);
+    this.$data.defaultActive = routeArrayGetIndex(routePath);
+    console.log(this.$data.defaultActive);
   },
   beforeUnmount() {
     window.removeEventListener(
@@ -130,14 +212,15 @@ export default defineComponent({
     height: 100vh;
     max-height: 100vh;
     .el-header {
-      background-color: #b3c0d1;
+      background-color: #ffffff;
       color: #333;
       padding: 0;
     }
     .el-main {
-      background-color: #e9eef3;
+      background-color: #f0f2f5;
       color: #333;
       height: 160px;
+      padding: 0;
     }
   }
 }

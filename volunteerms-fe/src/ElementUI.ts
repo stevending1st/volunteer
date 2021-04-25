@@ -36,7 +36,14 @@ import {
   ElCheckbox,
   ElSlider,
   ElTimePicker,
-  ElUpload
+  ElUpload,
+  ElEmpty,
+  ElDivider,
+  ElTag,
+  ElDropdown,
+  ElDropdownMenu,
+  ElDropdownItem,
+  ElCalendar
 } from "element-plus";
 
 // 引入 Element-plus 数组
@@ -78,7 +85,14 @@ const components = [
   ElCheckbox,
   ElSlider,
   ElTimePicker,
-  ElUpload
+  ElUpload,
+  ElEmpty,
+  ElDivider,
+  ElTag,
+  ElDropdown,
+  ElDropdownMenu,
+  ElDropdownItem,
+  ElCalendar
 ];
 
 // function ElementUIInstall () {

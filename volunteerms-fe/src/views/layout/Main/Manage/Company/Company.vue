@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin: 20px 20px 40px">
     <el-button size="mini" type="primary" @click="handleAdd()">新增</el-button>
     <TableComp :tableInfo="tableInfoValue" :tableData="tableDataValue">
       <template v-slot:operating="scope">
