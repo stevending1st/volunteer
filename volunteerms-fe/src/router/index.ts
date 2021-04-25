@@ -15,23 +15,32 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: "/activitySquare",
-        component: () => import("@/views/layout/Main/ActivitySquare/ActivitySquare.vue")
+        component: () =>
+          import("@/views/layout/Main/ActivitySquare/ActivitySquare.vue")
       },
       {
         path: "/activity/myActivity",
-        component: () => import("@/views/layout/Main/Activity/MyActivity/MyActivity.vue")
+        component: () =>
+          import("@/views/layout/Main/Activity/MyActivity/MyActivity.vue")
       },
       {
         path: "/activity/createActivity",
-        component: () => import("@/views/layout/Main/Activity/CreateActivity/CreateActivity.vue")
+        component: () =>
+          import(
+            "@/views/layout/Main/Activity/CreateActivity/CreateActivity.vue"
+          )
       },
       {
         path: "/activity/ActivityVerify",
-        component: () => import("@/views/layout/Main/Activity/ActivityVerify/ActivityVerify.vue")
+        component: () =>
+          import(
+            "@/views/layout/Main/Activity/ActivityVerify/ActivityVerify.vue"
+          )
       },
       {
         path: "/manage/company",
-        component: () => import("@/views/layout/Main/Manage/Company/Company.vue")
+        component: () =>
+          import("@/views/layout/Main/Manage/Company/Company.vue")
       },
       {
         path: "/manage/unit",
@@ -65,13 +74,13 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if( to.path ==="/login" || to.path === "/register"){
+  if (to.path === "/login" || to.path === "/register") {
     next();
-  } else if( localStorage.getItem("token") !== null ){
-    if (to.matched.length === 0 ) {
+  } else if (localStorage.getItem("token") !== null) {
+    if (to.matched.length === 0) {
       next({
         path: "/404"
-      })
+      });
     } else if (to.path === "/") {
       next({
         path: "/Home"

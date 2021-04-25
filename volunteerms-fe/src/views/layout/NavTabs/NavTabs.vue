@@ -35,8 +35,8 @@ export default defineComponent({
       this.$data.editableTabsValue = Tab.props.name;
       this.$emit("clicktabs", Tab.props.name);
     },
-    closetabToFather(name: string){
-      if (this.$props.editableTabs.length === 1){
+    closetabToFather(name: string) {
+      if (this.$props.editableTabs.length === 1) {
         this.$emit("closetab", 1);
       } else {
         this.$props.editableTabs.map((item: any, index: number) => {

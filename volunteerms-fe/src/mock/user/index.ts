@@ -1,10 +1,7 @@
 import Mock, { Random } from "mockjs";
 import BASE_URL from "../BASE_URL";
 import TOKEN from "../TOKEN";
-import {
-  CODE_USER_NOT_REGISTERED,
-  CODE_PASSWORD_ERR
-} from "../EERCODE";
+import { CODE_USER_NOT_REGISTERED, CODE_PASSWORD_ERR } from "../EERCODE";
 // import verify from "../utils/verification";
 
 // Mock.mock(`${ mockBaseURL }/test`, "get", {
@@ -16,7 +13,7 @@ import {
 //   }
 // });
 
-Mock.mock(`${ BASE_URL }/test`, "get", {
+Mock.mock(`${BASE_URL}/test`, "get", {
   status: 200,
   message: "成功！",
   data: {
@@ -25,30 +22,33 @@ Mock.mock(`${ BASE_URL }/test`, "get", {
   }
 });
 
-Mock.mock(`${ BASE_URL }/postLogin`, "post", function (option: any) {
+Mock.mock(`${BASE_URL}/postLogin`, "post", function(option: any) {
   const req = JSON.parse(option.body);
-  if(req.name !== "admin" && req.name !== "user") {
+  if (req.name !== "admin" && req.name !== "user") {
     return {
       errcode: CODE_USER_NOT_REGISTERED,
       msg: "账户未注册"
-    }
-  } else if((req.name === "admin" && req.password === "admin") || (req.name === "user" && req.password === "user")){
+    };
+  } else if (
+    (req.name === "admin" && req.password === "admin") ||
+    (req.name === "user" && req.password === "user")
+  ) {
     return {
       errcode: 0,
       msg: "成功",
       token: TOKEN + " " + req.name
-    }
+    };
   } else {
     return {
       errcode: CODE_PASSWORD_ERR,
       msg: "密码错误"
-    }
+    };
   }
 });
 
-Mock.mock(`${ BASE_URL }/getMenu`, "get", function (option: any) {
+Mock.mock(`${BASE_URL}/getMenu`, "get", function(option: any) {
   const req = JSON.parse(option.body);
-  if (req.name === "admin"){
+  if (req.name === "admin") {
     return {
       errcode: 0,
       msg: "成功",
@@ -61,7 +61,7 @@ Mock.mock(`${ BASE_URL }/getMenu`, "get", function (option: any) {
         {
           id: "2",
           menuSubName: "活动广场",
-          menuSubIcon: "el-icon-notebook-2",
+          menuSubIcon: "el-icon-notebook-2"
         },
         {
           id: "3",
@@ -117,7 +117,7 @@ Mock.mock(`${ BASE_URL }/getMenu`, "get", function (option: any) {
         {
           id: "2",
           menuSubName: "活动广场",
-          menuSubIcon: "el-icon-notebook-2",
+          menuSubIcon: "el-icon-notebook-2"
         },
         {
           id: "3",
@@ -140,7 +140,7 @@ Mock.mock(`${ BASE_URL }/getMenu`, "get", function (option: any) {
   }
 });
 
-Mock.mock(`${ BASE_URL }/getUerInfoSimple`, "get", function (option: any) {
+Mock.mock(`${BASE_URL}/getUerInfoSimple`, "get", function(option: any) {
   const req = JSON.parse(option.body);
   if (req.name === "admin") {
     return {
@@ -167,32 +167,32 @@ Mock.mock(`${ BASE_URL }/getUerInfoSimple`, "get", function (option: any) {
   }
 });
 
-Mock.mock(`${ BASE_URL }/getRecActLists`, "get", function (option: any) {
+Mock.mock(`${BASE_URL}/getRecActLists`, "get", function(option: any) {
   return Mock.mock({
-    "errcode": 0,
-    "msg": "成功",
+    errcode: 0,
+    msg: "成功",
     "recActLists|0-10": [
       {
-        "activitynm": Random.cword(10, 15),
-        "activityTheme": Random.cword(8, 14),
-        "activityTeam": Random.cword(4) + "志愿者协会",
-        "activityPublisher": Random.cname(),
-        "activityST": Random.date("yyyy/MM/dd"),
-        "activityET": Random.date("yyyy/MM/dd")
+        activitynm: Random.cword(10, 15),
+        activityTheme: Random.cword(8, 14),
+        activityTeam: Random.cword(4) + "志愿者协会",
+        activityPublisher: Random.cname(),
+        activityST: Random.date("yyyy/MM/dd"),
+        activityET: Random.date("yyyy/MM/dd")
       }
     ]
   });
 });
 
-Mock.mock(`${ BASE_URL }/getMyActiveLists`, "get", function (option: any) {
+Mock.mock(`${BASE_URL}/getMyActiveLists`, "get", function(option: any) {
   return Mock.mock({
-    "errcode": 0,
-    "msg": "成功",
+    errcode: 0,
+    msg: "成功",
     "myActiveLists|10-20": [
       {
         "id|+1": 123123123,
-        "name": Random.cword(10, 15),
-        "tags": [
+        name: Random.cword(10, 15),
+        tags: [
           {
             content: Random.cword(3, 6),
             type: ""
@@ -213,13 +213,16 @@ Mock.mock(`${ BASE_URL }/getMyActiveLists`, "get", function (option: any) {
             content: Random.cword(3, 6),
             type: "danger"
           }
-          ],
-        "introduction": Random.cparagraph(8, 16),
-        "status": Random.pick(["待启动", "报名中", "正在进行", "已结项"]),
-        "activeStartTime": Random.datetime("yyyy年MM月dd日 HH:mm"),
-        "activeAddress": Random.pick( [Random.city(true) + " XXX街道 XXX小区", "线上"] ),
-        "activePlanPersonNum": Random.natural(15, 30),
-        "activeActualPersonNum": Random.natural(0, 15),
+        ],
+        introduction: Random.cparagraph(8, 16),
+        status: Random.pick(["待启动", "报名中", "正在进行", "已结项"]),
+        activeStartTime: Random.datetime("yyyy年MM月dd日 HH:mm"),
+        activeAddress: Random.pick([
+          Random.city(true) + " XXX街道 XXX小区",
+          "线上"
+        ]),
+        activePlanPersonNum: Random.natural(15, 30),
+        activeActualPersonNum: Random.natural(0, 15)
       }
     ]
   });

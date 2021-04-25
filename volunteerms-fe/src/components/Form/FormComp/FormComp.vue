@@ -187,7 +187,7 @@ export default defineComponent({
     }
   },
   computed: {
-    form: function(): any{
+    form: function(): any {
       return this.$props.formdata;
     }
   }

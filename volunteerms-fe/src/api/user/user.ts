@@ -4,15 +4,15 @@ export function getTest() {
   return request.get("/test");
 }
 
-export function postLogin(data : {name:string, password: string}) {
+export function postLogin(data: { name: string; password: string }) {
   return request({
-    url:"/postLogin",
+    url: "/postLogin",
     method: "POST",
     data
   });
 }
 
-export function getMenu(data: {name:string}) {
+export function getMenu(data: { name: string }) {
   return request({
     url: "/getMenu",
     method: "get",
@@ -20,7 +20,7 @@ export function getMenu(data: {name:string}) {
   });
 }
 
-export function getUerInfoSimple(data: {name:string}) {
+export function getUerInfoSimple(data: { name: string }) {
   return request({
     url: "/getUerInfoSimple",
     method: "get",
@@ -31,15 +31,13 @@ export function getUerInfoSimple(data: {name:string}) {
 export function getRecActLists() {
   return request({
     url: "/getRecActLists",
-    method: "get",
+    method: "get"
   });
 }
 
 export function getMyActiveLists() {
   return request({
     url: "/getMyActiveLists",
-    method: "get",
+    method: "get"
   });
 }
-
-

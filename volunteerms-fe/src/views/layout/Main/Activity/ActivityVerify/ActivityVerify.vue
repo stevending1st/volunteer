@@ -32,7 +32,7 @@
             <el-col :sm="12">
               <el-form-item label="活动时长">
                 <span>
-                  {{ tableRow.scopeRow.activityLenT + "（小时）"}}
+                  {{ tableRow.scopeRow.activityLenT + "（小时）" }}
                 </span>
               </el-form-item>
             </el-col>
@@ -89,21 +89,21 @@
           <el-row>
             <el-col>
               <el-form-item label="活动内容">
-                <span>{{ tableRow.scopeRow.activityContent || "-"}}</span>
+                <span>{{ tableRow.scopeRow.activityContent || "-" }}</span>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col>
               <el-form-item label="活动要求">
-                <span>{{ tableRow.scopeRow.activityClaim || "-"}}</span>
+                <span>{{ tableRow.scopeRow.activityClaim || "-" }}</span>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :sm="12">
               <el-form-item label="招募审核">
-                <span>{{ tableRow.scopeRow.activityCheck ? "是" : "否"}}</span>
+                <span>{{ tableRow.scopeRow.activityCheck ? "是" : "否" }}</span>
               </el-form-item>
             </el-col>
             <el-col :sm="12">
@@ -117,7 +117,7 @@
           <el-row>
             <el-col :sm="12">
               <el-form-item label="招募审核">
-                <span>{{ tableRow.scopeRow.activityCheck ? "是" : "否"}}</span>
+                <span>{{ tableRow.scopeRow.activityCheck ? "是" : "否" }}</span>
               </el-form-item>
             </el-col>
           </el-row>

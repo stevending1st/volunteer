@@ -23,7 +23,7 @@ indexRoutePathArr.forEach(item => {
 export function routeArrayGetIndex(routePath: string): string {
   let returnStr = "";
   indexRoutePathArr.map(item => {
-    if(routePath === item[1]){
+    if (routePath === item[1]) {
       returnStr = item[0];
     }
   });
@@ -33,7 +33,7 @@ export function routeArrayGetIndex(routePath: string): string {
 export function routeArrayGetRoutePath(indexStr: string): string {
   let returnStr = "";
   indexRoutePathArr.map(item => {
-    if(indexStr === item[0]){
+    if (indexStr === item[0]) {
       returnStr = item[1];
     }
   });

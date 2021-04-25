@@ -8,6 +8,4 @@
 //   return !re.test(testString)
 // };
 
-
-
 // export { isChinese }
