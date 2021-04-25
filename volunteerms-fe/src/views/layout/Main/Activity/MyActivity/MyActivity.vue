@@ -142,10 +142,25 @@ export default defineComponent({
           }[];
         };
       }) => {
-        console.log("myActiveLists", res.data);
+        // console.log("myActiveLists", res.data);
         this.$data.myActiveLists = res.data.myActiveLists;
       }
     );
   }
 });
 </script>
+
+<style scoped>
+.cardActiveTitleh4 {
+  margin-bottom: 8px;
+}
+.cardActiveTitleA {
+  text-decoration: none;
+}
+.cardActiveTitleA:hover {
+  text-decoration: underline;
+}
+.el-tag {
+  margin-right: 10px;
+}
+</style>

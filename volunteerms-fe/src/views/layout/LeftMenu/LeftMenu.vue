@@ -119,7 +119,7 @@ export default defineComponent({
   },
   methods: {
     leftMenuSelect(index: string, indexPath: Array<string>) {
-      console.log("1----index:", index, "indexPath", indexPath);
+      // console.log("1----index:", index, "indexPath", indexPath);
       this.$emit("leftMenuSelectTF", indexPath);
     }
   }

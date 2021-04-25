@@ -1,7 +1,7 @@
 <template>
   <div style="margin: 20px 20px 40px">
     <el-button size="mini" type="primary" @click="handleAdd()">新增</el-button>
-    <TableComp :tableInfo="tableInfoValue" :tableData="tableDataValue">
+    <TableComp :tableInfo="tableInfoValue" :tableData="allUnitLists">
       <template v-slot:operating="scope">
         <el-button
           size="mini"
@@ -47,6 +47,7 @@ import { ElMessage, ElMessageBox } from "element-plus";
 import cloneDeep from "lodash/cloneDeep";
 import TableComp from "@/components/Table/TableComp/TableComp.vue";
 import FormComp from "@/components/Form/FormComp/FormComp.vue";
+import { getAllUnitLists } from "@/api/manage/manage";
 
 export default defineComponent({
   name: "Unit",
@@ -92,36 +93,7 @@ export default defineComponent({
           }
         ]
       },
-      tableDataValue: [
-        {
-          id: "01",
-          num: "01",
-          nm: "文学院",
-          companyId: "01",
-          type: "1"
-        },
-        {
-          id: "02",
-          num: "02",
-          nm: "理学院",
-          companyId: "01",
-          type: "1"
-        },
-        {
-          id: "03",
-          num: "04",
-          nm: "飞机院",
-          companyId: "02",
-          type: "1"
-        },
-        {
-          id: "04",
-          num: "04",
-          nm: "服务院",
-          companyId: "02",
-          type: "1"
-        }
-      ],
+      allUnitLists: [] as object[],
       dialog: {
         title: "",
         visible: false,
@@ -244,20 +216,20 @@ export default defineComponent({
       let errMessage: string;
       // 编辑 api 请求
       if (this.$data.dialog.type === "Edit") {
-        console.log("Edit...");
+        // console.log("Edit...");
         errMessage = "编辑失败";
       } else {
-        console.log("Add...");
+        // console.log("Add...");
         errMessage = "新增失败";
       }
       const res = true; // 模拟请求结果
       if (res) {
         if (this.$data.dialog.type === "Edit") {
-          this.$data.tableDataValue[
+          this.$data.allUnitLists[
             this.$data.dialog.rownum
           ] = this.$data.dialog.formdata;
         } else {
-          this.$data.tableDataValue.push(this.$data.dialog.formdata);
+          this.$data.allUnitLists.push(this.$data.dialog.formdata);
         }
         this.$data.dialog.visible = false;
         this.$data.dialog.formdata = {
@@ -279,14 +251,14 @@ export default defineComponent({
     },
     // 删除事件
     handleDelete(
-      scopeIndex: number,
-      scopeRow: {
-        id: string;
-        num: string;
-        nm: string;
-        companyId: string;
-        type: string;
-      }
+      scopeIndex: number //,
+      // scopeRow: {
+      //   id: string;
+      //   num: string;
+      //   nm: string;
+      //   companyId: string;
+      //   type: string;
+      // }
     ) {
       ElMessageBox.confirm("此操作将永久删除该数据, 是否继续?", "提示", {
         confirmButtonText: "确定",
@@ -294,10 +266,10 @@ export default defineComponent({
         type: "warning"
       }).then(() => {
         // 删除 api 请求
-        console.log(scopeRow);
+        // console.log(scopeRow);
         const res = true; // 模拟请求结果
         if (res) {
-          this.$data.tableDataValue.splice(scopeIndex, 1);
+          this.$data.allUnitLists.splice(scopeIndex, 1);
         } else {
           ElMessage({
             message: "删除失败",
@@ -308,6 +280,12 @@ export default defineComponent({
         }
       });
     }
+  },
+  created() {
+    getAllUnitLists().then(res => {
+      console.log("allUnitLists", res.data);
+      this.$data.allUnitLists = res.data.allUnitLists;
+    });
   }
 });
 </script>

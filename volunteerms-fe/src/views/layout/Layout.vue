@@ -135,13 +135,13 @@ export default defineComponent({
     //   }
     // },
     leftMenuSelect(indexPath: Array<string>) {
-      console.log("indexPath:", indexPath);
+      // console.log("indexPath:", indexPath);
       // 坑：这里用 indexPath.pop() 会出现 bug!
       const lastindex = indexPath[indexPath.length - 1];
       const routePath = lastindex ? lastindex : "/layout/404";
-      console.log("defaultActive", routePath);
+      // console.log("defaultActive", routePath);
       this.$data.defaultActive = routePath ? routePath : "";
-      console.log("this.$data.defaultActive", this.$data.defaultActive);
+      // console.log("this.$data.defaultActive", this.$data.defaultActive);
       this.$router.push(routeArrayGetRoutePath(lastindex));
     }
   },
@@ -152,11 +152,11 @@ export default defineComponent({
         ?.split(" ")
         .pop() ?? "";
     getMenu({ name: userName }).then(res => {
-      console.log("menu", res.data.menuList);
+      // console.log("menu", res.data.menuList);
       this.$data.myMenuLists = res.data.menuList;
     });
     getUerInfoSimple({ name: userName }).then(res => {
-      console.log("menu", res.data.userInfoSimple);
+      // console.log("menu", res.data.userInfoSimple);
       this.$data.userInfoSimple = res.data.userInfoSimple;
     });
   },
@@ -166,9 +166,9 @@ export default defineComponent({
       this.listenResizeFn(this.changeMenuDisplay)
     );
     const routePath = this.$route.path;
-    console.log(routePath);
+    // console.log(routePath);
     this.$data.defaultActive = routeArrayGetIndex(routePath);
-    console.log(this.$data.defaultActive);
+    // console.log(this.$data.defaultActive);
   },
   beforeUnmount() {
     window.removeEventListener(

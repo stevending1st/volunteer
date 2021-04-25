@@ -31,7 +31,7 @@ export default defineComponent({
   },
   methods: {
     clicktabsToFather(Tab: any) {
-      console.log("Tab:", Tab.props.name);
+      // console.log("Tab:", Tab.props.name);
       this.$data.editableTabsValue = Tab.props.name;
       this.$emit("clicktabs", Tab.props.name);
     },
@@ -41,7 +41,7 @@ export default defineComponent({
       } else {
         this.$props.editableTabs.map((item: any, index: number) => {
           if (item.name === name) {
-            console.log(index, this.$props.editableTabs.length);
+            // console.log(index, this.$props.editableTabs.length);
             if (this.$props.editableTabs.length === 1) {
               this.$emit("closetab", -1);
               return;

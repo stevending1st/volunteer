@@ -222,14 +222,14 @@ export default defineComponent({
         lazy: true,
         lazyLoad(node: any, resolve: any) {
           // const { level } = node;
-          console.log("begin", node.data, node.data === {}, "end");
+          // console.log("begin", node.data, node.data === {}, "end");
           setTimeout(() => {
             if (isEmptyObject(node.data)) {
               // 获取学院
               resolve(allCollegeList);
             } else {
               // 获取下一级
-              console.log(node.data.child, api[0].indexOf(node.data.child));
+              // console.log(node.data.child, api[0].indexOf(node.data.child));
               const nextNode: any = api[1][api[0].indexOf(node.data.child)];
               // 通过调用resolve将子节点数据返回，通知组件数据加载完成
               resolve(nextNode);

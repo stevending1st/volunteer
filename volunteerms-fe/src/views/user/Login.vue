@@ -73,8 +73,8 @@ export default defineComponent({
   data() {
     return {
       login: {
-        name: "admin",
-        password: "admin"
+        name: "",
+        password: ""
       }
     };
   },

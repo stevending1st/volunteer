@@ -172,7 +172,7 @@ export default defineComponent({
       this.$data.userInfo = res.data.userInfoSimple;
     });
     getRecActLists().then(res => {
-      console.log("getRecActLists", res.data);
+      // console.log("getRecActLists", res.data);
       this.$data.recActLists = res.data.recActLists;
     });
   },
@@ -187,7 +187,7 @@ export default defineComponent({
         },
         radar: {
           center: ["50%", "50%"],
-          radius: "60%",
+          radius: "54%",
           name: {
             textStyle: {
               color: "#999",
@@ -198,11 +198,13 @@ export default defineComponent({
           },
           nameGap: 5,
           indicator: [
-            { name: "管理", max: 100 },
-            { name: "信息技术", max: 100 },
-            { name: "客服", max: 100 },
-            { name: "研发", max: 100 },
-            { name: "市场", max: 100 }
+            { name: "便民利民", max: 100 },
+            { name: "扶贫帮困", max: 100 },
+            { name: "卫生保健", max: 100 },
+            { name: "环境维护", max: 100 },
+            { name: "宣传教育", max: 100 },
+            { name: "文体娱乐", max: 100 },
+            { name: "心理咨询", max: 100 }
           ]
         },
         series: [
@@ -212,8 +214,8 @@ export default defineComponent({
             // areaStyle: {normal: {}},
             data: [
               {
-                value: [10, 28, 35, 50, 19],
-                name: "预算分配（Allocated Budget）"
+                value: [10, 28, 35, 50, 19, 88, 26, 3] //,
+                // name: "预算分配（Allocated Budget）"
               }
             ]
           }

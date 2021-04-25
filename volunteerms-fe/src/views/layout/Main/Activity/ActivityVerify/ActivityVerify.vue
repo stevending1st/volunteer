@@ -1,36 +1,41 @@
 <template>
   <div style="margin: 20px 20px 40px">
-    <TableComp :tableInfo="tableInfoValue" :tableData="tableDataValue">
+    <TableComp :tableInfo="tableInfoValue" :tableData="activityVerifyLists">
       <template v-slot:tableFrom="tableRow">
         <el-form label-position="left">
           <el-row>
             <el-col :sm="12">
-              <el-form-item label="活动编号">
+              <el-form-item label="活动编号：">
                 <span>{{ tableRow.scopeRow.id }}</span>
               </el-form-item>
             </el-col>
-            <el-col :sm="12">
-              <el-form-item label="活动名称">
+          </el-row>
+          <el-row>
+            <el-col>
+              <el-form-item label="活动名称：">
                 <span>
-                  {{ tableRow.scopeRow.id ? "" : tableRow.scopeRow.id + "-" }}
-                  {{ tableRow.scopeRow.id }}
+                  {{
+                    tableRow.scopeRow.activityTheme
+                      ? tableRow.scopeRow.activityTheme + "-"
+                      : ""
+                  }}
+                  {{ tableRow.scopeRow.activitynm }}
                 </span>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :sm="12">
-              <el-form-item label="活动发起团队/人">
+              <el-form-item label="活动发起团队/人：">
                 <span>
                   {{
-                    tableRow.scopeRow.activityTeam ||
-                      tableRow.scopeRow.activityPublisher
+                    `${tableRow.scopeRow.activityTeam}（${tableRow.scopeRow.activityPublisher}）`
                   }}
                 </span>
               </el-form-item>
             </el-col>
             <el-col :sm="12">
-              <el-form-item label="活动时长">
+              <el-form-item label="活动时长：">
                 <span>
                   {{ tableRow.scopeRow.activityLenT + "（小时）" }}
                 </span>
@@ -39,12 +44,12 @@
           </el-row>
           <el-row>
             <el-col :sm="12">
-              <el-form-item label="发布时间">
+              <el-form-item label="发布时间：">
                 <span>{{ tableRow.scopeRow.activityPT }}</span>
               </el-form-item>
             </el-col>
             <el-col :sm="12">
-              <el-form-item label="招募起止时间">
+              <el-form-item label="招募起止时间：">
                 <span>
                   <!-- {{
                     Date().setTime(tableRow.scopeRow.activityRecruitST || 0)
@@ -64,7 +69,7 @@
           </el-row>
           <el-row>
             <el-col :sm="12">
-              <el-form-item label="活动起止时间">
+              <el-form-item label="活动起止时间：">
                 <span>
                   {{
                     tableRow.scopeRow.activityST +
@@ -75,12 +80,11 @@
               </el-form-item>
             </el-col>
             <el-col :sm="12">
-              <el-form-item label="招募人数/报名上限">
+              <el-form-item label="招募人数/报名上限：">
                 <span>
                   {{
-                    (tableRow.scopeRow.activityRecruitPN || "-") +
-                      "/" +
-                      (tableRow.scopeRow.activityRecruitEPN || "-")
+                    `${tableRow.scopeRow.activityRecruitPN || "-"}/${tableRow
+                      .scopeRow.activityRecruitEPN || "-"}`
                   }}
                 </span>
               </el-form-item>
@@ -88,42 +92,42 @@
           </el-row>
           <el-row>
             <el-col>
-              <el-form-item label="活动内容">
+              <el-form-item label="活动内容：">
                 <span>{{ tableRow.scopeRow.activityContent || "-" }}</span>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col>
-              <el-form-item label="活动要求">
+              <el-form-item label="活动要求：">
                 <span>{{ tableRow.scopeRow.activityClaim || "-" }}</span>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :sm="12">
-              <el-form-item label="招募审核">
+              <el-form-item label="招募审核：">
                 <span>{{ tableRow.scopeRow.activityCheck ? "是" : "否" }}</span>
               </el-form-item>
             </el-col>
             <el-col :sm="12">
-              <el-form-item label="允许取消">
+              <el-form-item label="允许取消：">
                 <span>{{
                   tableRow.scopeRow.activityAllowcan ? "是" : "否"
                 }}</span>
               </el-form-item>
             </el-col>
           </el-row>
-          <el-row>
-            <el-col :sm="12">
-              <el-form-item label="招募审核">
-                <span>{{ tableRow.scopeRow.activityCheck ? "是" : "否" }}</span>
+          <el-row v-if="tableRow.scopeRow.activityOther">
+            <el-col>
+              <el-form-item label="其他：">
+                <span>{{ tableRow.scopeRow.activityOther }}</span>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row v-if="tableRow.scopeRow.activityWXLink || false">
             <el-col :sm="12">
-              <a :href="tableRow.scopeRow.activityWXLink">微信公众链接</a>
+              <a :href="tableRow.scopeRow.activityWXLink">微信公众号文章链接</a>
             </el-col>
           </el-row>
         </el-form>
@@ -164,6 +168,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import TableComp from "@/components/Table/TableComp/TableComp.vue";
+import { getActivityVerifyLists } from "@/api/activity/activity";
 
 export default defineComponent({
   name: "ActivityVerify",
@@ -204,30 +209,14 @@ export default defineComponent({
           }
         ]
       },
-      tableDataValue: [
-        {
-          id: "12987122",
-          activitynm: "活动1",
-          activityTheme: "",
-          activityContent: "",
-          activityTeam: "666",
-          activityPublisher: "",
-          activityPT: 0,
-          activityRecruitST: 0,
-          activityRecruitET: 0,
-          activityST: 0,
-          activityET: 0,
-          activityLenT: 0,
-          activityCheck: true,
-          activityRecruitPN: 0,
-          activityRecruitEPN: 0,
-          activityClaim: "",
-          activityOther: "",
-          activityAllowcan: false,
-          activityWXLink: "#"
-        }
-      ]
+      activityVerifyLists: []
     };
+  },
+  created() {
+    getActivityVerifyLists().then(res => {
+      // console.log("myActiveLists", res.data);
+      this.$data.activityVerifyLists = res.data.activityVerifyLists;
+    });
   }
 });
 </script>

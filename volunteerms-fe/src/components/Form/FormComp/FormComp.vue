@@ -179,9 +179,6 @@ export default defineComponent({
     };
   },
   methods: {
-    inputItem() {
-      console.log(this.form);
-    },
     passingFormdata() {
       this.$emit("passingFormdataFn", this.form);
     }
