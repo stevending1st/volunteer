@@ -80,14 +80,15 @@ export default defineComponent({
   },
   methods: {
     loginfFn(): void {
-      postLogin(this.login)
-        .then(res => {
-          localStorage.setItem("token", res.data.token);
-          window.location.href = "/";
-        })
-        .catch(err => {
-          console.log("err", err);
-        });
+      if (this.$data.login.name && this.$data.login.password)
+        postLogin(this.login)
+          .then(res => {
+            localStorage.setItem("token", res.data.token);
+            window.location.href = "/";
+          })
+          .catch(err => {
+            console.log("err", err);
+          });
     }
   }
   // mounted() {
