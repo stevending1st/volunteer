@@ -350,7 +350,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var D_De
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\nvar BASE_URL = \"http://localhost:8080\";\n/* harmony default export */ __webpack_exports__[\"default\"] = (BASE_URL);\n\n//# sourceURL=webpack:///./src/mock/BASE_URL.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\nvar BASE_URL = \"https://stevending1st.github.io/\";\n/* harmony default export */ __webpack_exports__[\"default\"] = (BASE_URL);\n\n//# sourceURL=webpack:///./src/mock/BASE_URL.ts?");
 
 /***/ }),
 

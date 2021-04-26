@@ -1,7 +1,18 @@
 module.exports = {
-  configureWebpack: {
-    devtool: "source-map"
+  configureWebpack: config => {
+    if (process.env.NODE_ENV === "ghpage") {
+      config.mode = "production";
+      config.devtool = "nosources-source-map";
+    } else if (process.env.NODE_ENV === "dev") {
+      config.mode = "development";
+    } else {
+      config.mode = "production";
+    }
   },
+  // {
+  //   devtool:
+  //     process.env.NODE_ENV === "dev" ? "nosources-source-map" : "source-map"
+  // },
   pwa: {
     iconPaths: {
       favicon32: "./public/favicon.ico",
