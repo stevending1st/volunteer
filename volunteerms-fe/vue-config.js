@@ -1,35 +1,40 @@
-const cdn = {
-  css: [],
-  js: [
-    "https://cdn.bootcss.com/vue/2.5.17/vue.runtime.min.js",
-    "https://cdn.bootcss.com/vue-router/3.0.1/vue-router.min.js",
-    "https://cdn.bootcss.com/vuex/3.0.1/vuex.min.js",
-    "https://cdn.bootcss.com/axios/0.18.0/axios.min.js"
-  ]
-};
+"use strict";
+import path from "path";
+
+function resolve(dir) {
+  return path.join(__dirname, dir);
+}
+
+const publicPath = process.env.VUE_APP_PUBLICPATH;
 
 module.exports = {
-  chainWebpack: config => {
-    // 生产环境配置
-    if (process.env.NODE_ENV === "ghpage") {
-      // 生产环境注入cdn
-      config.plugin("html").tap(args => {
-        args[0].cdn = cdn;
-        return args;
-      });
-    }
-  },
+  publicPath: publicPath,
+  outputDir: "dist",
+  assetsDir: "static",
+  indexPath: "index.html",
+  productionSourceMap: process.env.NODE_ENV === "ghpage" ? false : true,
   configureWebpack: config => {
+    config.name = "志愿管理平台";
     if (process.env.NODE_ENV === "ghpage") {
       config.mode = "production";
       config.devtool = "nosources-source-map";
-      // 用cdn方式引入
-      config.externals = {
-        vue: "Vue",
-        vuex: "Vuex",
-        "vue-router": "VueRouter",
-        axios: "axios"
+      config.devServer = {
+        // port: port,
+        open: true,
+        overlay: {
+          warnings: false,
+          errors: true
+        },
+        before: require("./mock/mock-server.js")
       };
+      // // 用cdn方式引入
+      // config.externals = {
+      //   "element-plus": "element-plus",
+      //   vue: "Vue",
+      //   vuex: "Vuex",
+      //   "vue-router": "VueRouter",
+      //   axios: "axios"
+      // };
     } else if (process.env.NODE_ENV === "dev") {
       config.mode = "development";
     } else {
@@ -40,6 +45,74 @@ module.exports = {
   //   devtool:
   //     process.env.NODE_ENV === "dev" ? "nosources-source-map" : "source-map"
   // },
+  chainWebpack(config) {
+    // it can improve the speed of the first screen, it is recommended to turn on preload
+    config.plugin("preload").tap(() => [
+      {
+        rel: "preload",
+        // to ignore runtime.js
+        // https://github.com/vuejs/vue-cli/blob/dev/packages/@vue/cli-service/lib/config/app.js#L171
+        fileBlacklist: [/\.map$/, /hot-update\.js$/, /runtime\..*\.js$/],
+        include: "initial"
+      }
+    ]);
+
+    // when there are many pages, it will cause too many meaningless requests
+    config.plugins.delete("prefetch");
+
+    // set svg-sprite-loader
+    config.module
+      .rule("svg")
+      .exclude.add(resolve("src/icons"))
+      .end();
+    config.module
+      .rule("icons")
+      .test(/\.svg$/)
+      .include.add(resolve("src/icons"))
+      .end()
+      .use("svg-sprite-loader")
+      .loader("svg-sprite-loader")
+      .options({ symbolId: "icon-[name]" })
+      .end();
+
+    config.when(process.env.NODE_ENV !== "development", config => {
+      config
+        .plugin("ScriptExtHtmlWebpackPlugin")
+        .after("html")
+        .use("script-ext-html-webpack-plugin", [
+          {
+            // `runtime` must same as runtimeChunk name. default is `runtime`
+            inline: /runtime\..*\.js$/
+          }
+        ])
+        .end();
+      config.optimization.splitChunks({
+        chunks: "all",
+        cacheGroups: {
+          libs: {
+            name: "chunk-libs",
+            test: /[\\/]node_modules[\\/]/,
+            priority: 10,
+            chunks: "initial" // only package third parties that are initially dependent
+          },
+          elementUI: {
+            name: "chunk-elementUI", // split elementUI into a single package
+            priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
+            test: /[\\/]node_modules[\\/]_?element-ui(.*)/ // in order to adapt to cnpm
+          },
+          commons: {
+            name: "chunk-commons",
+            test: resolve("src/components"), // can customize your rules
+            minChunks: 3, //  minimum common number
+            priority: 5,
+            reuseExistingChunk: true
+          }
+        }
+      });
+      // https:// webpack.js.org/configuration/optimization/#optimizationruntimechunk
+      config.optimization.runtimeChunk("single");
+    });
+  },
   pwa: {
     iconPaths: {
       favicon32: "./public/favicon.ico",
@@ -48,17 +121,5 @@ module.exports = {
       maskIcon: "./public/favicon.ico",
       msTileImage: "./public/favicon.ico"
     }
-  },
-  chainWebpack: config => {
-    const svgRule = config.module.rule("svg");
-    svgRule.uses.clear();
-    svgRule
-      .use("svg-sprite-loader")
-      .loader("svg-sprite-loader")
-      .options({
-        SymbolId: "incon-[name]"
-      });
-  },
-  publicPath: process.env.VUE_APP_PUBLICPATH,
-  productionSourceMap: process.env.NODE_ENV === "ghpage" ? false : true
+  }
 };
